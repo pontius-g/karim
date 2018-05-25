@@ -6,7 +6,7 @@ exports.notify=functions.https.onRequest((req,res)=>{
         let payload = {
             notification: {
                 title: 'Alarm Detected!!!',
-                body: `Сообщение от датчика: ${req.query.id}`,
+                body: `Движение на датчике ${req.query.id}`,
                 icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/250px-Angular_full_color_logo.svg.png"
             }
         }
@@ -23,7 +23,6 @@ exports.notify=functions.https.onRequest((req,res)=>{
                 });
             } else { res.status(200).send("OFF"); }
         });
-        // res.status(200).send('OK');
     } else {
         res.status(403).send("no ID: " + e.code);
     }

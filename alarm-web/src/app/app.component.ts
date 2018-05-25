@@ -10,7 +10,6 @@ import { MessagingService } from "./messaging.service";
 export class AppComponent {
   alarmState:Boolean;
   proc:Boolean;
-  message;
   constructor(private db:AngularFireDatabase,private msgService: MessagingService){
     let alarmState=false;
     let proc=false;
@@ -29,6 +28,8 @@ export class AppComponent {
   ngOnInit() {
     this.msgService.getPermission()
     this.msgService.receiveMessage()
-    this.message = this.msgService.currentMessage
+    this.msgService.currentMessage.subscribe(m=>{
+      if(m) alert(m.notification.body);
+    });
   }
 }

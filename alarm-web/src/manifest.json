@@ -1,6 +1,6 @@
 {
-  "name": "alarm-web",
-  "short_name": "alarm-web",
+  "name": "karimAlarm",
+  "short_name": "karimAlarm",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
