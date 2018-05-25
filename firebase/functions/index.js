@@ -6,7 +6,7 @@ exports.notify=functions.https.onRequest((req,res)=>{
         let payload = {
             notification: {
                 title: 'Alarm Detected!!!',
-                body: `Движение на датчике ${req.query.id}`,
+                body: `Движение на датчике ${req.query.id}(${Date.now()})`,
                 icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/250px-Angular_full_color_logo.svg.png"
             }
         }
