@@ -15,16 +15,15 @@
   <div id="btnAdd" style="display:none; cursor: pointer; text-align:center; vertical-align: center; border: solid 1px #00f; border-radius: 15px; padding: 16px; color: #f00;">Добавить на рабочий стол</div>
   <script>
     let deferredPrompt;
-    const btnAdd=document.querySelector('#btnAdd');
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
       // Update UI notify the user they can add to home screen
-      btnAdd.style.display = 'block';
+      document.querySelector('#btnAdd').style.display = 'block';
     });
-    btnAdd.addEventListener('click', (e) => {
+    document.querySelector('#btnAdd').addEventListener('click', (e) => {
       // hide our user interface that shows our A2HS button
-      btnAdd.style.display = 'none';
+      document.querySelector('#btnAdd').style.display = 'none';
       // Show the prompt
       deferredPrompt.prompt();
       // Wait for the user to respond to the prompt
