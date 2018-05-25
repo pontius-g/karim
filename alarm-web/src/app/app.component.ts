@@ -10,14 +10,23 @@ import { MessagingService } from "./messaging.service";
 export class AppComponent {
   alarmState:Boolean;
   proc:Boolean;
+  firstRun:Boolean;
   constructor(private db:AngularFireDatabase,private msgService: MessagingService){
-    let alarmState=false;
-    let proc=false;
+    this.alarmState=false;
+    this.proc=false;
+    this.firstRun=true;
     this.db.object('/alarm').valueChanges().subscribe((d:any)=>{
       if (d!=null) {
         this.alarmState=d.state;
       }
     });
+    if (!!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)) {
+      this.db.object('/alarm/notify').valueChanges().subscribe((d:any)=>{
+        if (this.firstRun){
+          this.firstRun=false;
+        } else { if (d!=null) { alert(d); } }
+      });
+    }
   }
   switchState(){
     this.proc=true;

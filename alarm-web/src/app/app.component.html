@@ -1,6 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="margin-top:10%;text-align:center;vertical-align:center;">
-  <h1 *ngIf="!alarmState" style="color:red;">Сигнализация выключена</h1>
+  <h1 *ngIf="!alarmState" style="color:red;">Сигнализация отключена</h1>
   <h1 *ngIf="alarmState" style="color:green;">Сигнализация включена</h1>
   <div *ngIf="!proc" style="width: auto; cursor:pointer; margin:32px; border-radius:15px; border: solid 1px #456; color: #123; text-align:center;vertical-align:center; padding:16px; font-size: 24px;" (click)='switchState();'>
     <span *ngIf="!alarmState">Включить</span><span *ngIf="alarmState">Выключить</span>

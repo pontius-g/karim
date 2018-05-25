@@ -12,6 +12,8 @@ exports.notify=functions.https.onRequest((req,res)=>{
         }
         admin.database().ref('/alarm/state').once("value", s=>{
             if (s.val()===true){
+                admin.database().ref('/alarm/notify').set(payload.notification.body)
+                .catch(e=>{ res.status(403).send("notify write failed: " + e.code); });
                 admin.database().ref('/fcmTokens/').once("value", d=>{
                     let tokens=[];
                     Object.keys(d.val()).forEach(k=>{ tokens.push(d.val()[k]); });
