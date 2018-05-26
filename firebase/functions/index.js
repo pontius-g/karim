@@ -26,6 +26,6 @@ exports.notify=functions.https.onRequest((req,res)=>{
             } else { res.status(200).send("OFF"); }
         });
     } else {
-        res.status(403).send("no ID: " + e.code);
+        res.status(403).send("no ID");
     }
 });
