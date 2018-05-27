@@ -3,38 +3,40 @@
 <head>
   <meta charset="utf-8">
   <title>karimAlarm</title>
+  <!-- элемент <base/> используется фреймворком Angular для определения "корня" маршрутов приложения -->
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Файл Manifest используется для дукларации основных свойств Web-приложения в режиме PWA (Progressive Web App) -->
   <link rel="manifest" href="manifest.json">
+  <!-- "theme-color" описывает цвет вкладки для мобильного браузера -->
   <meta name="theme-color" content="#1976d2">
 </head>
 <body>
+  <!-- Логотип "вшит в страницу" путем добавления его в base64 формате -->
   <div style="text-align:center;"><img alt="Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" width="300"></div>
+  <!-- элемент app-root соответсвует указателю в свойствах компонента app и будет заменен фреймворком Angular зи HTML-шаблона компонента. Надпись "Загрузка..." будет отображаться пока запускается компонент и рендерится его темплейт-->
   <app-root>Загрузка...</app-root>
+  <!-- следующий элемент стилизирован в виде кнопки, он обрабатывается скриптом ниже. Данная "кнопка" введена потому, что Google Chrome с версии 68 более не будет автоматически выдавать предложение об "установке на домашний экран" при загрузке страницы. По умолчанию не отображается -->
   <div id="btnAdd" style="display:none; cursor: pointer; text-align:center; vertical-align: center; border: solid 1px #00f; border-radius: 15px; padding: 16px; color: #f00;">Добавить на рабочий стол</div>
   <script>
     let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      // Update UI notify the user they can add to home screen
-      document.querySelector('#btnAdd').style.display = 'block';
+    window.addEventListener('beforeinstallprompt', (e) => { // обрабатываем событие генерируемое браузером с поддержкой PWA, оно возникает если приложение не было установлено на "домашний экран" 
+      e.preventDefault(); // стандартное свойство событий, прерывает "действия по умолчанию"
+      deferredPrompt = e; // наследуем состоние события в глобальную переменную, таким образом получаем возможность вызвать его методы в собственной функции
+      document.querySelector('#btnAdd').style.display = 'block'; // так как событие "beforeinstallprompt" возникает лишь в браузерах поддерживающих обработку PWA - меняем стиль элемента и отображаем кнопку "Добавить на рабочий стол"
     });
-    document.querySelector('#btnAdd').addEventListener('click', (e) => {
-      // hide our user interface that shows our A2HS button
-      document.querySelector('#btnAdd').style.display = 'none';
-      // Show the prompt
-      deferredPrompt.prompt();
-      // Wait for the user to respond to the prompt
-      deferredPrompt.userChoice
+    document.querySelector('#btnAdd').addEventListener('click', (e) => { // Создаем обработчик события "click" по элементу кнопки "Добавить на рабочий стол"
+      document.querySelector('#btnAdd').style.display = 'none'; // Меняем ее стиль и "прячем", так как более она нам не пригодится и мы не хотим создавать колизии при многократном вызове данной функции - "кнопки нет - второй раз не нажмешь"
+      deferredPrompt.prompt(); // Вызываем метод "запроса разрешения для установки Web-приложения на домашний экран"
+      deferredPrompt.userChoice // Данный метод возвращает Promise с результатом действия пользователя в окне разрешения на установку
         .then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
+          if (choiceResult.outcome === 'accepted') { // Если установка была подтверждена пишем в лог для дебага
             console.log('User accepted the A2HS prompt');
-          } else {
+          } else { // В противном случае, также, пишем лог
             console.log('User dismissed the A2HS prompt');
           }
-          deferredPrompt = null;
+          deferredPrompt = null; // обнуляем содержимое переменной, так как она более не будет востребована
         });
     });
   </script>

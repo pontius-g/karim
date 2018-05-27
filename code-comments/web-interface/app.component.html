@@ -1,7 +1,11 @@
-<div style="margin-top:10%;text-align:center;vertical-align:center;">
+<!-- Шаблон HTML рендерится в селекторе <app-root/> -->
+<div style="margin-top:10%;text-align:center;vertical-align:center;"> 
+  <!-- элементы <H1/> отображаются согласно условия *ngIf проверяющее True/False состояние переменной alarmState -->
   <h1 *ngIf="!alarmState" style="color:red;">Сигнализация отключена</h1>
   <h1 *ngIf="alarmState" style="color:green;">Сигнализация включена</h1>
+  <!-- Следующие два <div/> элемента отображаются в зависимости состояния proc, эта переменная принимает состояние True при вызове функции switchState() и возвращается в False после получения ответа от сервера -->
   <div *ngIf="!proc" style="width: auto; cursor:pointer; margin:32px; border-radius:15px; border: solid 1px #456; color: #123; text-align:center;vertical-align:center; padding:16px; font-size: 24px;" (click)='switchState();'>
+    <!-- Текст "кнопки" изменяется, также, по сотонию alarmState -->
     <span *ngIf="!alarmState">Включить</span><span *ngIf="alarmState">Выключить</span>
   </div>
   <div *ngIf="proc" style="text-align:center;vertical-align:center; padding:16px; font-size: 24px;">Ожидаем ответа сервера</div>
